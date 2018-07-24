@@ -30,7 +30,7 @@ double icpStep(OrientedPoint & retval, const PointPairContainer& container){
 		syx+=mf.first.y*mf.second.x;
 		syy+=mf.first.y*mf.second.y;
 	}
-	retval.theta=atan2(sxy-syx, sxx+sxy);
+	retval.theta=atan2(sxy-syx, sxx+syy);
 	double s=sin(retval.theta), c=cos(retval.theta);
 	retval.x=mean.second.x-(c*mean.first.x-s*mean.first.y);
 	retval.y=mean.second.y-(s*mean.first.x+c*mean.first.y);
@@ -62,7 +62,7 @@ double icpNonlinearStep(OrientedPoint & retval, const PointPairContainer& contai
 	for (ContainerIterator it=container.begin(); it!=container.end(); it++){
 		PointPair mf=std::make_pair(it->first-mean.first, it->second-mean.second);
 		double  dalpha=atan2(mf.second.y, mf.second.x) - atan2(mf.first.y, mf.first.x);
-		double gain=sqrt(mean.first*mean.first);
+		double gain=sqrt(it->first*it->first);
 		ms+=gain*sin(dalpha);
 		mc+=gain*cos(dalpha);
 	}
